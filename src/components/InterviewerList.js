@@ -19,8 +19,8 @@ setInterviewer:function - a function that accepts an interviewer id
         key={intObj.id}
         name={intObj.name} 
         avatar={intObj.avatar}
-        selected={props.interviewer === intObj.id}
-        setInterviewer={() => props.setInterviewer(intObj.id)}
+        selected={props.value === intObj.id}
+        setInterviewer={() => props.onChange(intObj.id)}
       />
     );
   })
