@@ -19,3 +19,16 @@ export function getAppointmentsForDay(state, day) {
   
   return filteredAppointments;
 }
+
+export function getInterview(state, interview) {
+  
+  if (!interview) {
+    return null;
+  }
+
+  for (let num in state.interviewers) {
+    if (state.interviewers[num].id === interview.interviewer) {
+      return { ...interview, interviewer: state.interviewers[num] };
+    }
+  }
+}
