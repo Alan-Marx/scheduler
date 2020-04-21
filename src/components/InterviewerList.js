@@ -1,5 +1,5 @@
 import React from "react";
-import classNames from 'classnames';
+import PropTypes from "prop-types";
 import InterviewerListItem from "components/InterviewerListItem";
 import "components/InterviewerList.scss";
 
@@ -12,6 +12,11 @@ interviewers:array - an array of objects containing the information of each inte
 interviewer:number - the id of an interviewer
 setInterviewer:function - a function that accepts an interviewer id
 */
+
+  InterviewerList.propTypes = {
+    value: PropTypes.number,
+    onChange: PropTypes.func.isRequired
+  } 
 
   const interviewerItems = props.interviewers.map(intObj => {
     return (
