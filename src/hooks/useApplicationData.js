@@ -10,36 +10,47 @@ export default function useApplicationData() {
     interviewers: {}
   });
 
+  useEffect(() => {
+    Promise.all([
+      axios.get('/api/days'),
+      axios.get('/api/appointments'),
+      axios.get('/api/interviewers')
+    ]).then(values => {
+        setState(prev => ({
+          ...prev, 
+          days: values[0].data,
+          appointments: values[1].data,
+          interviewers: values[2].data
+       }))
+      //  console.log(values[0].data);
+    });
+  }, [])
+
+ 
   const updateSpotsRemaining = (arg) => {
-    const days = state.days;
-    const dayObj = days.find(day => day.name === state.day);
+    const daysArr = state.days;
+    // console.log(daysArr);
+    const dayObj = daysArr.find(day => day.name === state.day);
+    // console.log(dayObj);
+
     if (arg) {
+      // console.log(daysArr);
       dayObj.spots--;
+      // console.log(daysArr);
+      // console.log(state.days);
     } else {
       dayObj.spots++;
     }
-    days[dayObj.id - 1] = dayObj;
-    return days;
-
-    // return axios.get('/api/days')
-    // .then(response => {
-    //   setState(prev => ({
-    //     ...prev, 
-    //     days: response.data
-    //   }));
-    // })
+    daysArr[dayObj.id - 1] = dayObj;
+    return daysArr;
   }
   
   const setDay = day => setState({ ...state, day});
   
   const bookInterview = (id, interview) => {
-    let days;
-    if (!state.appointments[id].interview) {
-      days = updateSpotsRemaining(true);
-    } else {
-      days = state.days;
-    }
-  
+    const days = !state.appointments[id].interview ? updateSpotsRemaining(true) : state.days;
+    // console.log(days);
+   
     const appointment = {
       ...state.appointments[id],
       interview: {...interview}
@@ -78,22 +89,6 @@ export default function useApplicationData() {
       }))
     });
   }
-
-  useEffect(() => {
-    Promise.all([
-      axios.get('/api/days'),
-      axios.get('/api/appointments'),
-      axios.get('/api/interviewers')
-    ]).then(values => {
-        setState(prev => ({
-          ...prev, 
-          days: values[0].data,
-          appointments: values[1].data,
-          interviewers: values[2].data
-       }))
-    });
-  }, [])
-
 
   return {
     state,
