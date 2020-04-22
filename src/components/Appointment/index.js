@@ -32,7 +32,6 @@ export default function Appointment(props) {
     }
     transition(SAVING);
     props.bookInterview(props.id, interview)
-    .then(() => props.updateSpotsRemaining())
     .then(() => transition(SHOW))
     .catch(() => transition(ERROR_SAVE, true));
   };
@@ -40,13 +39,12 @@ export default function Appointment(props) {
   const deleteInterview = (id) => {
     transition(DELETING, true);
     props.cancelInterview(id)
-    .then(() => props.updateSpotsRemaining())
     .then(() => transition(EMPTY))
     .catch(() => transition(ERROR_DELETE, true));
   };
 
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
       <Header time={props.time}></Header>
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} /> }
       {mode === SHOW && (
