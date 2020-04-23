@@ -1,4 +1,10 @@
-  # Interview Scheduler
+# Interview Scheduler
+
+This application allows a user to schedule, edit and remove 1-hour interviews between students and interviewers during the weekday. 
+
+## Screenshots
+
+
 
 ## Setup
 
