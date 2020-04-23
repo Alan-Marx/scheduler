@@ -22,22 +22,15 @@ export default function useApplicationData() {
           appointments: values[1].data,
           interviewers: values[2].data
        }))
-      //  console.log(values[0].data);
     });
   }, [])
 
- 
+ // if argument is true, this means that a new appointment has been added. If false, that an existing appointment has been deleted.
   const updateSpotsRemaining = (arg) => {
     const daysArr = state.days;
-    // console.log(daysArr);
     const dayObj = daysArr.find(day => day.name === state.day);
-    // console.log(dayObj);
-
     if (arg) {
-      // console.log(daysArr);
       dayObj.spots--;
-      // console.log(daysArr);
-      // console.log(state.days);
     } else {
       dayObj.spots++;
     }
@@ -46,11 +39,9 @@ export default function useApplicationData() {
   }
   
   const setDay = day => setState({ ...state, day});
-  
+
   const bookInterview = (id, interview) => {
     const days = !state.appointments[id].interview ? updateSpotsRemaining(true) : state.days;
-    // console.log(days);
-   
     const appointment = {
       ...state.appointments[id],
       interview: {...interview}
@@ -70,7 +61,6 @@ export default function useApplicationData() {
   }
   
   const cancelInterview = (id) => {
-
     const days = updateSpotsRemaining(false);
     const appointment = {
       ...state.appointments[id],
